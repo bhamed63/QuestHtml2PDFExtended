@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/HtmlToPdfConverter/.vs/HtmlToPdfConverter
+/HtmlToPdfConverter/src/HtmlAgilityPack/bin/Debug/netstandard2.0
+/HtmlToPdfConverter/src/HtmlAgilityPack/obj/Debug/netstandard2.0
+/HtmlToPdfConverter/src/HtmlAgilityPack/obj
+/HtmlToPdfConverter/tests/HtmlAgilityPack.Tests/obj
+/HtmlToPdfConverter/tests/HtmlAgilityPack.Tests/bin/Debug/netstandard2.0
