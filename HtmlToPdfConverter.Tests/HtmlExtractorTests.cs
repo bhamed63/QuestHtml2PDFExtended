@@ -57,5 +57,21 @@ namespace HtmlToPdfConverter.Tests
             Assert.AreEqual("red", result.Children[0].Style.Color);
             Assert.AreEqual("12px", result.Children[0].Style.FontSize);
         }
+
+        [TestMethod]
+        public void Extract_Image_ReturnsCorrectStructure()
+        {
+            // Arrange
+            var html = "<body><img src=\"https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png\" /></body>";
+
+            // Act
+            var result = HtmlExtractor.Extract(html);
+
+            // Assert
+            Assert.AreEqual(ElementType.body, result.Tag);
+            Assert.AreEqual(1, result.Children.Count);
+            Assert.AreEqual(ElementType.img, result.Children[0].Tag);
+            Assert.AreEqual("https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png", result.Children[0].Attributes["src"]);
+        }
     }
 }

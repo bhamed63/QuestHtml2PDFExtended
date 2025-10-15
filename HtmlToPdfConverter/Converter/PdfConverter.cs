@@ -80,12 +80,42 @@ namespace HtmlToPdfConverter.Converter
                         }
                     });
                     break;
+                case ElementType.img:
+                    if (element.Attributes.TryGetValue("src", out var src))
+                    {
+                        var imageData = GetImageData(src);
+                        if (imageData != null)
+                        {
+                            column.Item().ApplyContainerStyle(element.Style).Image(imageData);
+                        }
+                    }
+                    break;
                 default:
                     foreach (var child in element.Children)
                     {
                         BuildQuestPdfTree(column, child);
                     }
                     break;
+            }
+        }
+
+        private static byte[]? GetImageData(string src)
+        {
+            try
+            {
+                if (src.StartsWith("http"))
+                {
+                    using var client = new System.Net.Http.HttpClient();
+                    return client.GetByteArrayAsync(src).Result;
+                }
+                else
+                {
+                    return System.IO.File.ReadAllBytes(src);
+                }
+            }
+            catch
+            {
+                return null;
             }
         }
     }
