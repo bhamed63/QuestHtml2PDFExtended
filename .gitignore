@@ -3,6 +3,8 @@
 ################################################################################
 
 /.vs
+/TestConverterConsoleApp/bin
+/TestConverterConsoleApp/obj
 /HtmlToPdfConverter/bin
 /HtmlToPdfConverter/obj
 /HtmlToPdfConverter.Tests/bin
