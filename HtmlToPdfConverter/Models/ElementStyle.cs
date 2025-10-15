@@ -20,6 +20,11 @@ namespace HtmlToPdfConverter.Models
         public string? TextAlign { get; set; }
         public string? VerticalAlign { get; set; }
 
+        public ElementStyle Clone()
+        {
+            return (ElementStyle)this.MemberwiseClone();
+        }
+
         public void Merge(ElementStyle other, bool overwrite = false)
         {
             if (overwrite || string.IsNullOrEmpty(Color)) Color = other.Color;

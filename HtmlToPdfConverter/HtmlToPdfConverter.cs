@@ -1,5 +1,5 @@
-using HtmlToPdfConverter.Extractor;
 using HtmlToPdfConverter.Converter;
+using HtmlToPdfConverter.Extractor;
 
 namespace HtmlToPdfConverter
 {
@@ -7,7 +7,9 @@ namespace HtmlToPdfConverter
     {
         public static byte[] Convert(string html)
         {
-            var element = HtmlExtractor.Extract(html);
+            var cssContent = HtmlExtractor.ExtractCssClassesAndStyles(html);
+            var cssStyles = CssParser.Parse(cssContent);
+            var element = HtmlExtractor.ExtractHtml(html, cssStyles);
             return PdfConverter.Convert(element);
         }
     }

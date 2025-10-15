@@ -1,5 +1,6 @@
 using HtmlToPdfConverter.Converter;
 using HtmlToPdfConverter.Extractor;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace HtmlToPdfConverter.Tests
 {
@@ -11,10 +12,9 @@ namespace HtmlToPdfConverter.Tests
         {
             // Arrange
             var html = "<body><p>Hello, World!</p></body>";
-            var element = HtmlExtractor.Extract(html);
 
             // Act
-            var result = PdfConverter.Convert(element);
+            var result = HtmlToPdfConverter.Convert(html);
 
             // Assert
             Assert.IsNotNull(result);
@@ -26,10 +26,9 @@ namespace HtmlToPdfConverter.Tests
         {
             // Arrange
             var html = "<body><img src=\"https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png\" /></body>";
-            var element = HtmlExtractor.Extract(html);
 
             // Act
-            var result = PdfConverter.Convert(element);
+            var result = HtmlToPdfConverter.Convert(html);
 
             // Assert
             Assert.IsNotNull(result);
