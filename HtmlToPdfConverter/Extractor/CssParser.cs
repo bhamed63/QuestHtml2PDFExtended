@@ -14,7 +14,9 @@ namespace HtmlToPdfConverter.Extractor
                 return styles;
             }
 
-            // This is a simplified regex for parsing CSS. It may not handle all edge cases.
+            // Remove comments
+            cssContent = Regex.Replace(cssContent, @"/\*.*?\*/", "", RegexOptions.Singleline);
+
             var regex = new Regex(@"\.([a-zA-Z0-9_-]+)\s*\{([^}]+)\}");
             var matches = regex.Matches(cssContent);
 
@@ -27,9 +29,7 @@ namespace HtmlToPdfConverter.Extractor
 
                 if (styles.ContainsKey(className))
                 {
-                    // In a real scenario, you might want to merge styles.
-                    // For simplicity, we'll just overwrite.
-                    styles[className] = elementStyle;
+                    styles[className].Merge(elementStyle, true); // Overwrite/merge
                 }
                 else
                 {
