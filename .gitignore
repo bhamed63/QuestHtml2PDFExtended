@@ -5,7 +5,7 @@
 /.vs
 /TestConverterConsoleApp/bin
 /TestConverterConsoleApp/obj
-/HtmlToPdfConverter/bin
-/HtmlToPdfConverter/obj
-/HtmlToPdfConverter.Tests/bin
-/HtmlToPdfConverter.Tests/obj 
+/src/HtmlToPdfConverter/bin
+/src/HtmlToPdfConverter/obj
+/tests/HtmlToPdfConverter.Tests/bin
+/tests/HtmlToPdfConverter.Tests/obj 
