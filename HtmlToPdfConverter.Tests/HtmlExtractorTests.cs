@@ -35,7 +35,6 @@ namespace HtmlToPdfConverter.Tests
         }
 
         [TestMethod]
-        [Ignore] // Ignoring this test as it is currently failing and blocking the build.
         public void ExtractHtml_AppliesStylesFromCss()
         {
             // Arrange
@@ -124,7 +123,6 @@ namespace HtmlToPdfConverter.Tests
         }
 
         [TestMethod]
-        [Ignore] // Ignoring this test as it is currently failing and blocking the build.
         public void ExtractHtml_AppliesMultipleStylesFromCss()
         {
             // Arrange
@@ -143,7 +141,6 @@ namespace HtmlToPdfConverter.Tests
         }
 
         [TestMethod]
-        [Ignore] // Ignoring this test as it is currently failing and blocking the build.
         public void ExtractHtml_AppliesStylesFromMultipleClasses()
         {
             // Arrange

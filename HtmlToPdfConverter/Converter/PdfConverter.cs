@@ -3,6 +3,9 @@ using HtmlToPdfConverter.Models;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using System.Buffers.Text;
+using System.Data.Common;
+using System.Xml.Linq;
 
 namespace HtmlToPdfConverter.Converter
 {
@@ -24,24 +27,12 @@ namespace HtmlToPdfConverter.Converter
                     page.PageColor(Colors.White);
                     page.DefaultTextStyle(x => x.FontSize(20));
 
-                    page.Header()
-                        .Text("Hello PDF!")
-                        .SemiBold().FontSize(36).FontColor(Colors.Blue.Medium);
-
                     page.Content()
                         .Column(x =>
                         {
                             BuildQuestPdfTree(x, element);
                         });
 
-
-                    page.Footer()
-                        .AlignCenter()
-                        .Text(x =>
-                        {
-                            x.Span("Page ");
-                            x.CurrentPageNumber();
-                        });
                 });
             }).GeneratePdf();
         }
@@ -57,28 +48,18 @@ namespace HtmlToPdfConverter.Converter
                 case ElementType.h5:
                 case ElementType.h6:
                 case ElementType.span:
-                    column.Item().ApplyContainerStyle(element.Style).Text(text =>
-                    {
-                        text.DefaultTextStyle(new TextStyle().ApplyTextStyle(element.Style, element.Tag));
-                        text.Span(element.Text);
-                    });
+                    BuildQuestPdfTreeForChildren(column, element);
+                    AppendText(column, element);
                     break;
+
                 case ElementType.p:
-                    column.Item().ApplyContainerStyle(element.Style).Text(text =>
-                    {
-                        text.DefaultTextStyle(new TextStyle().ApplyTextStyle(element.Style, element.Tag));
-                        text.Span(element.Text);
-                        text.ParagraphSpacing(1);
-                    });
+                    BuildQuestPdfTreeForChildren(column, element);
+                    AppendText(column, element, true);
                     break;
+
                 case ElementType.div:
-                    column.Item().ApplyContainerStyle(element.Style).Column(x =>
-                    {
-                        foreach (var child in element.Children)
-                        {
-                            BuildQuestPdfTree(x, child);
-                        }
-                    });
+                    BuildQuestPdfTreeForChildren(column, element);
+                    AppendText(column, element);
                     break;
                 case ElementType.img:
                     if (element.Attributes.TryGetValue("src", out var src))
@@ -91,11 +72,38 @@ namespace HtmlToPdfConverter.Converter
                     }
                     break;
                 default:
+                    BuildQuestPdfTreeForChildren(column, element);
+                    AppendText(column, element);
+                    break;
+            }
+        }
+
+        private static void AppendText(ColumnDescriptor column, HtmlElement element, bool addParagraphSpacing = false)
+        {
+            if (!string.IsNullOrEmpty(element.Text) &&
+                !string.IsNullOrWhiteSpace(element.Text))
+            {
+                column.Item().ApplyContainerStyle(element.Style).Text(text =>
+                {
+                    text.DefaultTextStyle(new TextStyle().ApplyTextStyle(element.Style, element.Tag));
+                    text.Span(element.Text);
+                    if (addParagraphSpacing)
+                        text.ParagraphSpacing(1);
+                });
+            }
+        }
+
+        private static void BuildQuestPdfTreeForChildren(ColumnDescriptor column, HtmlElement element)
+        {
+            if (element.Children.Count > 0)
+            {
+                column.Item().ApplyContainerStyle(element.Style).Column(x =>
+                {
                     foreach (var child in element.Children)
                     {
-                        BuildQuestPdfTree(column, child);
+                        BuildQuestPdfTree(x, child);
                     }
-                    break;
+                });
             }
         }
 
@@ -107,6 +115,11 @@ namespace HtmlToPdfConverter.Converter
                 {
                     using var client = new System.Net.Http.HttpClient();
                     return client.GetByteArrayAsync(src).Result;
+                }
+                else if (src.Contains(";base64,"))
+                {
+                    var imageContent = src.Substring(src.IndexOf(";base64,") + 9);
+                    return System.Convert.FromBase64String(imageContent);
                 }
                 else
                 {
