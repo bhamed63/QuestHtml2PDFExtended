@@ -71,6 +71,13 @@ namespace HtmlToPdfConverter.Helpers
                 case ElementType.h6:
                     style.FontSize(12).Bold();
                     break;
+                case ElementType.strong:
+                case ElementType.b:
+                    style.Bold();
+                    break;
+                case ElementType.i:
+                    style.Italic();
+                    break;
             }
 
             return style;
