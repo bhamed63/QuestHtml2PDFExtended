@@ -1,5 +1,7 @@
 using HtmlToPdfConverter.Converter;
 using HtmlToPdfConverter.Extractor;
+using HtmlToPdfConverter.Models;
+using System.Collections.Generic;
 
 namespace HtmlToPdfConverter.Tests
 {
@@ -11,7 +13,7 @@ namespace HtmlToPdfConverter.Tests
         {
             // Arrange
             var html = "<body><p>Hello, World!</p></body>";
-            var element = HtmlExtractor.Extract(html);
+            var element = HtmlExtractor.Extract(html, new Dictionary<string, ElementStyle>());
 
             // Act
             var result = PdfConverter.Convert(element);
@@ -26,7 +28,7 @@ namespace HtmlToPdfConverter.Tests
         {
             // Arrange
             var html = "<body><img src=\"https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png\" /></body>";
-            var element = HtmlExtractor.Extract(html);
+            var element = HtmlExtractor.Extract(html, new Dictionary<string, ElementStyle>());
 
             // Act
             var result = PdfConverter.Convert(element);
