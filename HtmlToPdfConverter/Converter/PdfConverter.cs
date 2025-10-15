@@ -3,6 +3,7 @@ using HtmlToPdfConverter.Models;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -167,7 +168,12 @@ namespace HtmlToPdfConverter.Converter
         {
             try
             {
-                if (src.StartsWith("http"))
+                if (src.StartsWith("data:image"))
+                {
+                    var base64Data = src.Substring(src.IndexOf(',') + 1);
+                    return System.Convert.FromBase64String(base64Data);
+                }
+                else if (src.StartsWith("http"))
                 {
                     using var client = new System.Net.Http.HttpClient();
                     return client.GetByteArrayAsync(src).Result;
