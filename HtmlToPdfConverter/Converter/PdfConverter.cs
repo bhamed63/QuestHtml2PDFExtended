@@ -70,10 +70,9 @@ namespace HtmlToPdfConverter.Converter
                 case ElementType.strong:
                 case ElementType.b:
                 case ElementType.i:
-                    column.Item().ApplyContainerStyle(element.Style).Text(text =>
+                    column.Item().ApplyContainerStyle(element.Style).Inlined(inlined =>
                     {
-                        text.DefaultTextStyle(new TextStyle().ApplyTextStyle(element.Style, element.Tag));
-                        BuildTextContent(text, element);
+                        BuildInlinedContent(inlined, element);
                     });
                     break;
                 case ElementType.div:
@@ -95,6 +94,32 @@ namespace HtmlToPdfConverter.Converter
                         BuildQuestPdfTree(column, child);
                     }
                     break;
+            }
+        }
+
+        private static void BuildInlinedContent(InlinedDescriptor inlined, HtmlElement element)
+        {
+            foreach (var child in element.Children)
+            {
+                if (child.Tag == ElementType.img)
+                {
+                    if (child.Attributes.TryGetValue("src", out var src))
+                    {
+                        var imageData = GetImageData(src);
+                        if (imageData != null)
+                        {
+                            inlined.Item().Image(imageData);
+                        }
+                    }
+                }
+                else if (IsInline(child.Tag) || child.Tag == ElementType.span) // span is our text node wrapper
+                {
+                    inlined.Item().Text(text =>
+                    {
+                        BuildTextContent(text, child);
+                    });
+                }
+                // Ignoring block-level elements inside an inline context as it's invalid HTML
             }
         }
 
