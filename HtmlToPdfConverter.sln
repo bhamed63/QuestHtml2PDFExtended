@@ -8,12 +8,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlToPdfConverter.Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConverterConsoleApp", "TestConverterConsoleApp\TestConverterConsoleApp.csproj", "{3FFD565F-4EFD-4F2D-A4A1-678FA9A678EE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Test", "Unit Test", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Console App Test", "Console App Test", "{CCB2446D-B4CD-4B97-84E2-17504561278D}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{4F195724-CF9D-4E0B-ACB4-64FCB4C25554}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,11 +29,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{1E45AD67-21C9-483C-A984-2053E23A61AA} = {4F195724-CF9D-4E0B-ACB4-64FCB4C25554}
-		{D06B73F4-A40A-47AF-9E72-8265B9B20F98} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{3FFD565F-4EFD-4F2D-A4A1-678FA9A678EE} = {CCB2446D-B4CD-4B97-84E2-17504561278D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {03E463E4-5913-464B-A48C-E23423FA802E}
